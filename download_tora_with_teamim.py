@@ -20,6 +20,7 @@ def download():
         filter(soup, "span", {"class": "chSofS"})
         filter(soup, "span", {"class": "chAliya"})
         filter(soup, "span", {"class": "chRev"})
+        filter(soup, "span", {"class": "chNun"})
         filter(soup, "br")
 
         chapter = soup.find_all("p", {"class": "chText"})
@@ -28,7 +29,7 @@ def download():
             for pasuk in parshia.text.split("׃"):
                 pasuk = re.sub(r"{ש}", "", pasuk)  # remove end of Humash marking
                 pasuk = re.sub(r"\n", "", pasuk)  # remove end of line
-                pasuk = re.sub(' +', ' ', pasuk) # remove double spaces
+                pasuk = re.sub(" +", " ", pasuk)  # remove double spaces
                 pasuk = pasuk.strip()
                 if pasuk:
                     psukim.append(pasuk)
@@ -41,7 +42,7 @@ fName = "raw_data.txt"
 
 def get_data():
     if os.path.exists(fName):
-        return open(fName).readlines()
+        return open(fName, "r", encoding="utf-8").readlines()
     psukim = download()
     with open(fName, "w", encoding="utf-8") as outFile:
         outFile.write("\n".join(psukim))
